@@ -285,7 +285,7 @@ var EditForm = React.createClass({
 		return (
 			<FooterBar style={styles.footerbar}>
 				<div style={styles.footerbarInner}>
-					{!this.props.list.noedit && (
+					{!this.props.list.noedit && this.props.list.id !== 'posts_revisions' && (
 						<LoadingButton
 							color="primary"
 							disabled={loading}
@@ -296,7 +296,7 @@ var EditForm = React.createClass({
 							{loadingButtonText}
 						</LoadingButton>
 					)}
-					{!this.props.list.noedit && (
+					{!this.props.list.noedit && this.props.list.id !== 'posts_revisions' && (
 						<Button disabled={loading} onClick={this.toggleResetDialog} variant="link" color="cancel" data-button="reset">
 							<ResponsiveText
 								hiddenXS="reset changes"
@@ -304,7 +304,7 @@ var EditForm = React.createClass({
 							/>
 						</Button>
 					)}
-					{!this.props.list.nodelete && (
+					{!this.props.list.nodelete && this.props.list.id !== 'posts_revisions' && (
 						<Button disabled={loading} onClick={this.toggleDeleteDialog} variant="link" color="delete" style={styles.deleteButton} data-button="delete">
 							<ResponsiveText
 								hiddenXS={`delete ${this.props.list.singular.toLowerCase()}`}
@@ -312,6 +312,21 @@ var EditForm = React.createClass({
 							/>
 						</Button>
 					)}
+					{this.props.list.id === 'posts_revisions' ? (
+						<Button
+							disabled={loading}
+							onClick={() => {
+								location.href="/api/post_rollback/" + this.props.data.id;
+							}}
+							color="primary"
+							data-button="update"
+						>
+							<ResponsiveText
+								hiddenXS={`Rollback`}
+								visibleXS="Rollback"
+							/>
+						</Button>
+					) : null}
 				</div>
 			</FooterBar>
 		);
